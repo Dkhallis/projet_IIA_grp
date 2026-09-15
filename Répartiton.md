@@ -55,6 +55,37 @@ deleteDemande()
 acceptDemande()
 changeStatus()
 
+
+## 3. Personne 3 — Messagerie / Notifications
+
+Fichiers :
+
+messages.html
+conversation.html
+notifications.html
+js/messages.js
+js/notifications.js
+
+À coder :
+
+Liste des conversations
+Ouverture d'une conversation
+Envoi de messages
+Réception des messages
+Suppression d'un message
+Notifications
+Notification lorsqu'une demande reçoit une réponse
+Notification lorsqu'une aide est acceptée
+
+Fonctions principales :
+
+sendMessage()
+getMessages()
+deleteMessage()
+createConversation()
+getNotifications()
+markAsRead()
+
 ## 4. Personne 4 — Recherche / Administration / Base de données
 
 Fichiers :
