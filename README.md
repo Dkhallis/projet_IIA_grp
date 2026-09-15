@@ -1,19 +1,6 @@
 # projet_IIA_grp
 
-
-Idée du projet : 
-- jeu de la vie.
-- application pour gérer tes playlists musique selon tes envies, comment tu te sens.
-- 
+## Nom du projet : CampusHelp
+## Concept : Application qui permettrait de signaler et suivre les problèmes présent dans sont établissement.
 
 
-
-
-1 - Construction du Product Backlog
-
-Les étudiants doivent produire :
-
-- User stories complètes (avec format “En tant que… Je veux… Afin de…”)
-- Criteria d’acceptation
-- Definition of Ready
-- Definition of Done
