@@ -25,3 +25,34 @@ register()
 updateProfile()
 deleteAccount()
 checkSession()
+
+
+## 2. Personne 2 — Demandes d'aide
+
+Fichiers :
+
+demandes.html
+create-demande.html
+js/demandes.js
+
+À coder :
+
+Affichage des demandes
+Création d'une demande
+Modification d'une demande
+Suppression d'une demande
+Catégories d'aide
+Statut d'une demande
+Acceptation d'une aide
+Historique des demandes
+
+Fonctions principales :
+
+createDemande()
+getDemandes()
+updateDemande()
+deleteDemande()
+acceptDemande()
+changeStatus()
+
+##
