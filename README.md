@@ -1,28 +1,43 @@
-# projet_IIA_grp
+# CampusHelp - Frontend
 
-## Nom du projet : CampusHelp
-## Concept : Application qui permettrait de signaler et suivre les problèmes présent dans sont établissement.
+Application de gestion des signalements pour les établissements scolaires.
 
-CampusHelp est une application destinée aux établissements scolaires afin de faciliter le signalement et le suivi des problèmes rencontrés au quotidien.
+## Description
 
-L'application permet aux étudiants et au personnel de signaler facilement un problème, comme un ordinateur en panne, un problème de Wi-Fi, du matériel défectueux ou un problème dans une salle. Le signalement peut contenir une description, une catégorie, un lieu et éventuellement une photo.
+CampusHelp est une application web qui permet aux étudiants et au personnel de signaler facilement les problèmes rencontrés dans leur établissement.
 
-Les membres du personnel peuvent ensuite consulter les signalements, les prendre en charge et modifier leur statut afin de permettre aux utilisateurs de suivre leur avancement.
+## Technologies
 
-Un espace administrateur permet également de gérer les utilisateurs, les catégories, les lieux et de consulter des statistiques sur les problèmes rencontrés dans l'établissement.
+- React 18 + TypeScript
+- Supabase (Auth + PostgreSQL)
+- React Router DOM v6
+- Vite
 
-L'objectif de CampusHelp est donc de centraliser les signalements, faciliter leur traitement et améliorer la communication entre les étudiants et le personnel.
+## Installation
 
+```bash
+cd campushelp-frontend
+npm install
+cp .env.example .env
+# Éditez .env avec vos informations Supabase
+npm run dev
+```
 
+## Configuration Supabase
 
-1er Sprint : 
+Voir le fichier `.env.example` pour les variables nécessaires.
 
-- 1/ créer le doc.md  <- info !!!
-- 2/ Sprint backlog = Qu'est-ce qu'on fait avant 16h30.
-- 3/ Répartir les tâches
-      -> planning poker
-      -> daily toutes les heures (pendant 5 minutes)
-- 4/ sprint review et + restore
+## Structure
 
+- `src/components/auth/` : Formulaires et routes protégées
+- `src/context/` : Contexte d'authentification
+- `src/hooks/` : Hooks personnalisés
+- `src/lib/supabase/` : Client et types Supabase
+- `src/pages/` : Pages de l'application
+- `src/types/` : Types TypeScript
 
+## Scripts
 
+- `npm run dev` : Démarrer le développement
+- `npm run build` : Build pour la production
+- `npm run preview` : Prévision de la build
