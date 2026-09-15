@@ -14,3 +14,12 @@ Un espace administrateur permet également de gérer les utilisateurs, les caté
 L'objectif de CampusHelp est donc de centraliser les signalements, faciliter leur traitement et améliorer la communication entre les étudiants et le personnel.
 
 
+
+1er Sprint : 
+
+- 1/ créer le doc.md  <- info !!!
+- 2/ Sprint backlog = Qu'est-ce qu'on fait avant 16h30.
+- 3/ Répartir les tâches
+      -> planning poker
+      -> daily toutes les heures (pendant 5 minutes)
+- 4/ sprint review et + restore  
