@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CampusHelp - Conversation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 24px;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header a {
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        #message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: #eef2ff;
+            border: 1px solid #dbeafe;
+        }
+
+        .message.me {
+            align-self: flex-end;
+            background: #dcfce7;
+            border-color: #bbf7d0;
+        }
+
+        .message-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        textarea,
+        button {
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 80px;
+            flex: 1 1 300px;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            margin-top: 10px;
+        }
+
+        .empty {
+            color: #64748b;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="header">
+            <h1 id="conversation-title">Conversation</h1>
+            <a href="./messages.html">Retour aux messages</a>
+        </div>
+
+        <div id="message-list"></div>
+
+        <form id="message-form">
+            <textarea id="message-content" placeholder="Votre message..." required></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+    <script src="./js/messages.js"></script>
+</body>
+
+</html>
