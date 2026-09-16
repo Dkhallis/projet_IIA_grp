@@ -1,16 +1,51 @@
-# React + Vite
+# CAMPUSHELP - Connexion et utilisateurs
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Interface de connexion de CAMPUSHELP, developpee avec React et Vite. Elle permet aux etudiants d'acceder a leur espace afin de suivre leurs signalements au sein de leur etablissement.
 
-Currently, two official plugins are available:
+## Fonctionnalites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Formulaire de connexion avec adresse e-mail et mot de passe
+- Verification des champs obligatoires
+- Affichage ou masquage du mot de passe
+- Message de confirmation apres une connexion reussie
+- Interface responsive adaptee aux ecrans mobiles et aux ordinateurs
 
-## React Compiler
+## Prerequis
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js
+- npm
 
-## Expanding the Oxlint configuration
+## Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Installez les dependances du projet :
+
+```bash
+npm install
+```
+
+## Developpement
+
+Lancez le serveur de developpement :
+
+```bash
+npm run dev
+```
+
+L'application sera ensuite accessible a l'adresse indiquee par Vite dans le terminal.
+
+## Commandes disponibles
+
+```bash
+npm run dev      # Lance le serveur de developpement
+npm run lint     # Verifie le code avec Oxlint
+npm run build    # Genere la version de production
+npm run preview  # Previsualise la version de production
+```
+
+## Technologies
+
+- React
+- Vite
+- JavaScript
+- CSS
+- Oxlint
