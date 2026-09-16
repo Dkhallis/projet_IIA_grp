@@ -3,7 +3,7 @@
   --primary-dark: #1d4ed8;
   --bg: #f8fafc;
   --card: #ffffff;
-  --text: #1e293b;
+  --text: #000000;
   --muted: #64748b;
   --border: #e2e8f0;
   --danger: #dc2626;
@@ -79,6 +79,8 @@ body {
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
+  color: var(--text);
+  background: var(--card);
 }
 
 .form-row {
@@ -216,6 +218,7 @@ body {
   font-size: 0.95rem;
   font-family: inherit;
   background: var(--card);
+  color: var(--text);
 }
 
 .card-header-right {
@@ -238,6 +241,20 @@ body {
   text-decoration: underline;
 }
 
+.btn-danger {
+  color: var(--danger);
+}
+
+.statut-select {
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 .edit-form {
   width: 100%;
 }
@@ -251,6 +268,8 @@ body {
   border-radius: 8px;
   font-size: 0.9rem;
   font-family: inherit;
+  color: var(--text);
+  background: var(--card);
   margin-bottom: 0.6rem;
 }
 
@@ -318,6 +337,8 @@ body {
   border-radius: 8px;
   font-size: 0.85rem;
   font-family: inherit;
+  color: var(--text);
+  background: var(--card);
 }
 
 .comment-form button {

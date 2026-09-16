@@ -8,6 +8,8 @@ const CATEGORIES = [
   "Autre",
 ];
 
+const STATUTS = ["À traiter", "En cours", "Résolu"];
+
 const STATUT_CLASS = {
   "À traiter": "badge badge-todo",
   "En cours": "badge badge-progress",
@@ -24,7 +26,7 @@ function formatDate(date) {
   }).format(new Date(date));
 }
 
-function SignalementCard({ signalement: s, onUpdate, onAddComment }) {
+function SignalementCard({ signalement: s, onUpdate, onAddComment, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     description: s.description,
@@ -54,6 +56,12 @@ function SignalementCard({ signalement: s, onUpdate, onAddComment }) {
     if (!commentText.trim()) return;
     onAddComment(s.id, commentText.trim());
     setCommentText("");
+  }
+
+  function handleDelete() {
+    if (window.confirm("Supprimer ce signalement ?")) {
+      onDelete(s.id);
+    }
   }
 
   if (isEditing) {
@@ -104,9 +112,22 @@ function SignalementCard({ signalement: s, onUpdate, onAddComment }) {
         <div className="card-header">
           <span className="card-categorie">{s.categorie}</span>
           <div className="card-header-right">
-            <span className={STATUT_CLASS[s.statut] || "badge"}>{s.statut}</span>
+            <select
+              className={`statut-select ${STATUT_CLASS[s.statut] || "badge"}`}
+              value={s.statut}
+              onChange={(e) => onUpdate(s.id, { statut: e.target.value })}
+            >
+              {STATUTS.map((statut) => (
+                <option key={statut} value={statut}>
+                  {statut}
+                </option>
+              ))}
+            </select>
             <button type="button" className="btn-link" onClick={startEdit}>
               Modifier
+            </button>
+            <button type="button" className="btn-link btn-danger" onClick={handleDelete}>
+              Supprimer
             </button>
           </div>
         </div>
@@ -142,7 +163,7 @@ function SignalementCard({ signalement: s, onUpdate, onAddComment }) {
   );
 }
 
-export default function SignalementList({ signalements, onUpdate, onAddComment }) {
+export default function SignalementList({ signalements, onUpdate, onAddComment, onDelete }) {
   if (signalements.length === 0) {
     return (
       <div className="signalement-list">
@@ -157,7 +178,13 @@ export default function SignalementList({ signalements, onUpdate, onAddComment }
       <h2>Signalements ({signalements.length})</h2>
       <ul>
         {signalements.map((s) => (
-          <SignalementCard key={s.id} signalement={s} onUpdate={onUpdate} onAddComment={onAddComment} />
+          <SignalementCard
+            key={s.id}
+            signalement={s}
+            onUpdate={onUpdate}
+            onAddComment={onAddComment}
+            onDelete={onDelete}
+          />
         ))}
       </ul>
     </div>

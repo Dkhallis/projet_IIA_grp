@@ -43,6 +43,10 @@ function App() {
     );
   }
 
+  function handleDeleteSignalement(id) {
+    setSignalements((prev) => prev.filter((s) => s.id !== id));
+  }
+
   const term = search.trim().toLowerCase();
   const filteredSignalements = term
     ? signalements.filter((s) =>
@@ -74,6 +78,7 @@ function App() {
           signalements={filteredSignalements}
           onUpdate={handleUpdateSignalement}
           onAddComment={handleAddComment}
+          onDelete={handleDeleteSignalement}
         />
       </main>
     </div>
