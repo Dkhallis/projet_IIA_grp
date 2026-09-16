@@ -1,87 +1,54 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import './App.css'
 
+const seedReports = [
+  { id: 'CH-1048', title: 'Wi-Fi instable en salle B204', description: 'La connexion se coupe toutes les dix minutes pendant les cours.', category: 'Wi-Fi', location: 'Bâtiment B · Salle 204', status: 'En cours', priority: 'Haute', date: '12 sept. 2026', author: 'Léa Martin', assignee: 'Marc Dubois', comments: 3 },
+  { id: 'CH-1047', title: 'Projecteur hors service', description: 'Le projecteur affiche une image bleue malgré le changement de câble.', category: 'Matériel', location: 'Bâtiment A · Amphi 2', status: 'Nouveau', priority: 'Normale', date: '11 sept. 2026', author: 'Léa Martin', assignee: 'Non assigné', comments: 1 },
+  { id: 'CH-1046', title: 'Fuite près de la cafétéria', description: 'Une fuite rend le passage glissant depuis ce matin.', category: 'Locaux', location: 'Bâtiment C · Rez-de-chaussée', status: 'Résolu', priority: 'Urgente', date: '10 sept. 2026', author: 'Thomas Bernard', assignee: 'Sarah Petit', comments: 5 },
+  { id: 'CH-1045', title: 'Chaise cassée', description: 'Une chaise est inutilisable dans la salle de travail.', category: 'Mobilier', location: 'Bibliothèque · Salle 1', status: 'Refusé', priority: 'Faible', date: '09 sept. 2026', author: 'Léa Martin', assignee: 'Non assigné', comments: 2 },
+]
+const statusColors = { Nouveau: 'blue', 'En cours': 'amber', Résolu: 'green', Refusé: 'red' }
+const priorities = ['Faible', 'Normale', 'Haute', 'Urgente']
+
 function App() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
-  const [isConnected, setIsConnected] = useState(false)
+  const [user, setUser] = useState(null)
+  const [role, setRole] = useState('Étudiant')
+  const [reports, setReports] = useState(seedReports)
+  const [page, setPage] = useState('overview')
+  const [selected, setSelected] = useState(null)
+  const [query, setQuery] = useState('')
+  const [status, setStatus] = useState('Tous les statuts')
+  const [category, setCategory] = useState('Toutes les catégories')
+  const [notice, setNotice] = useState('')
+  const [modal, setModal] = useState(false)
 
-  function handleSubmit(event) {
-    event.preventDefault()
-    setError('')
-
-    if (!email || !password) {
-      setError('Veuillez renseigner votre adresse e-mail et votre mot de passe.')
-      return
-    }
-
-    setIsConnected(true)
-  }
-
-  return (
-    <main className="login-page">
-      <section className="welcome-panel" aria-label="Présentation de CAMPUSHELP">
-        <div className="brand-mark" aria-hidden="true">
-          <span>+</span>
-        </div>
-        <p className="eyebrow">La vie étudiante, ensemble</p>
-        <h1>Bienvenue sur<br /><strong>CAMPUSHELP</strong></h1>
-        <p className="welcome-copy">
-          Un établissement plus simple à vivre commence par un signalement.
-          Retrouvez votre communauté et faites avancer votre campus.
-        </p>
-        <div className="help-note">
-          <span className="note-icon" aria-hidden="true">i</span>
-          <span>Un souci dans votre établissement ? Signalez-le en quelques clics.</span>
-        </div>
-        <div className="panel-lines" aria-hidden="true"><i /><i /><i /></div>
-      </section>
-
-      <section className="form-panel">
-        <div className="form-content">
-          <p className="mobile-brand">CAMPUS<span>HELP</span></p>
-          <p className="eyebrow">Espace étudiant</p>
-          <h2>Connectez-vous</h2>
-          <p className="form-intro">Accédez à votre espace pour suivre vos signalements.</p>
-
-          {isConnected ? (
-            <div className="success-message" role="status">
-              <span className="success-icon">✓</span>
-              <strong>Connexion réussie !</strong>
-              <span>Votre espace CAMPUSHELP est prêt.</span>
-              <button type="button" onClick={() => setIsConnected(false)}>Retour</button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} noValidate>
-              <label htmlFor="email">Adresse e-mail</label>
-              <div className="input-wrap">
-                <span className="field-icon" aria-hidden="true">@</span>
-                <input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="prenom.nom@etablissement.fr" autoComplete="email" />
-              </div>
-
-              <div className="password-heading">
-                <label htmlFor="password">Mot de passe</label>
-                <a href="#mot-de-passe-oublie">Mot de passe oublié ?</a>
-              </div>
-              <div className="input-wrap">
-                <span className="field-icon lock" aria-hidden="true">▣</span>
-                <input id="password" type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Votre mot de passe" autoComplete="current-password" />
-                <button className="toggle-password" type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}>{showPassword ? 'Masquer' : 'Voir'}</button>
-              </div>
-
-              {error && <p className="error-message" role="alert">{error}</p>}
-              <button className="submit-button" type="submit">Se connecter <span aria-hidden="true">→</span></button>
-            </form>
-          )}
-
-          <p className="register-link">Pas encore de compte ? <a href="#inscription">Créer un compte</a></p>
-        </div>
-        <footer>© 2024 CAMPUSHELP <span>•</span> Une communauté qui avance</footer>
-      </section>
-    </main>
-  )
+  const staff = user?.role === 'Personnel'
+  const visibleReports = useMemo(() => reports.filter((item) => `${item.title} ${item.description} ${item.id}`.toLowerCase().includes(query.toLowerCase()) && (status === 'Tous les statuts' || item.status === status) && (category === 'Toutes les catégories' || item.category === category)), [reports, query, status, category])
+  function notify(message) { setNotice(message); window.setTimeout(() => setNotice(''), 2500) }
+  function login(event) { event.preventDefault(); const form = event.currentTarget; if (!form.email.value || !form.password.value) { notify('Renseignez vos identifiants pour continuer.'); return }; setUser({ name: role === 'Étudiant' ? 'Léa Martin' : role === 'Personnel' ? 'Marc Dubois' : 'Alice Robert', role }); setPage('overview') }
+  function updateReport(id, changes, message) { setReports((items) => items.map((item) => item.id === id ? { ...item, ...changes } : item)); notify(message) }
+  function createReport(event) { event.preventDefault(); const form = event.currentTarget; const item = { id: `CH-${1050 + reports.length}`, title: form.title.value, description: form.description.value, category: form.category.value, location: form.location.value, status: 'Nouveau', priority: form.priority.value, date: 'Aujourd’hui', author: user.name, assignee: 'Non assigné', comments: 0 }; setReports((items) => [item, ...items]); setModal(false); notify('Signalement créé avec succès') }
+  if (!user) return <Login role={role} setRole={setRole} onSubmit={login} notice={notice} />
+  const pageTitle = page === 'overview' ? `Bonjour ${user.name.split(' ')[0]} 👋` : page === 'reports' ? (staff ? 'Centre des signalements' : 'Mes signalements') : page === 'analytics' ? 'Statistiques' : page === 'history' ? 'Historique des actions' : page === 'users' ? 'Utilisateurs' : 'Configuration'
+  return <div className="app-shell"><Sidebar user={user} page={page} setPage={setPage} logout={() => setUser(null)} /><main className="main-content"><header className="topbar"><div><p className="topbar-kicker">CampusHelp / {user.role}</p><h1>{pageTitle}</h1></div><div className="topbar-actions"><button className="icon-button" onClick={() => notify('Vous avez 3 notifications non lues')} aria-label="Notifications">♧<span>3</span></button><div className="user-chip"><span className="avatar">{user.name.split(' ').map((part) => part[0]).join('')}</span><span><b>{user.name}</b><small>{user.role}</small></span></div></div></header>{notice && <div className="toast">✓ {notice}</div>}{page === 'overview' && <Overview user={user} reports={reports} setPage={setPage} open={setSelected} create={() => setModal(true)} />}{page === 'reports' && <Reports reports={visibleReports} all={reports} staff={staff} query={query} setQuery={setQuery} status={status} setStatus={setStatus} category={category} setCategory={setCategory} open={setSelected} create={() => setModal(true)} update={updateReport} />}{page === 'analytics' && <Analytics reports={reports} />}{page === 'history' && <History />}{page === 'users' && <Users notify={notify} />}{page === 'settings' && <Settings setPage={setPage} notify={notify} />}{selected && <Drawer report={reports.find((item) => item.id === selected)} close={() => setSelected(null)} staff={staff} update={updateReport} />}{modal && <CreateModal close={() => setModal(false)} submit={createReport} />}</main></div>
 }
 
+function Login({ role, setRole, onSubmit, notice }) { return <main className="login-page"><section className="login-visual"><div className="brand-lockup"><span className="brand-icon">+</span><span>CAMPUS<b>HELP</b></span></div><div className="login-copy"><p className="eyebrow">La vie étudiante, ensemble</p><h1>Un campus qui<br /><em>vous écoute.</em></h1><p>Signalez les problèmes de votre établissement et suivez leur résolution, au même endroit.</p><div className="login-proof">✓ <span>Une demande. Une équipe. Une solution.</span></div></div><div className="visual-grid" /></section><section className="login-form"><div className="login-form-inner"><p className="mobile-brand">CAMPUS<span>HELP</span></p><p className="eyebrow">Espace sécurisé</p><h2>Bienvenue.</h2><p className="form-intro">Connectez-vous pour accéder à votre espace CampusHelp.</p><form onSubmit={onSubmit}><label htmlFor="email">Adresse e-mail</label><input id="email" name="email" type="email" placeholder="prenom.nom@campus.fr" /><label htmlFor="password">Mot de passe</label><input id="password" name="password" type="password" placeholder="Votre mot de passe" />{notice && <p className="error-message">{notice}</p>}<label>Se connecter en tant que</label><div className="role-picker">{['Étudiant', 'Personnel', 'Administrateur'].map((item) => <button type="button" className={role === item ? 'active' : ''} key={item} onClick={() => setRole(item)}>{item}</button>)}</div><button className="primary-button" type="submit">Accéder à mon espace <span>→</span></button></form><p className="login-help">Mot de passe oublié ? <a href="#help">Contacter l’assistance</a></p><p className="demo-hint">Démo locale : saisissez simplement une adresse et un mot de passe.</p></div><footer>© 2026 CampusHelp · Plateforme de signalement</footer></section></main> }
+function Sidebar({ user, page, setPage, logout }) { const items = [['overview', '⌂', 'Vue d’ensemble'], ['reports', '▣', user.role === 'Étudiant' ? 'Mes signalements' : 'Signalements']]; if (user.role === 'Administrateur') items.push(['analytics', '◔', 'Statistiques'], ['history', '◷', 'Historique'], ['users', '♙', 'Utilisateurs'], ['settings', '⚙', 'Configuration']); return <aside className="sidebar"><div className="sidebar-brand"><span className="brand-icon">+</span><span>CAMPUS<b>HELP</b></span></div><p className="nav-label">Navigation</p><nav>{items.map(([id, icon, label]) => <button key={id} className={page === id ? 'nav-item active' : 'nav-item'} onClick={() => setPage(id)}><span>{icon}</span>{label}{id === 'reports' && <small>4</small>}</button>)}</nav><div className="sidebar-bottom"><div className="campus-status"><span className="status-dot" />Campus Saint-Exupéry<small>Service opérationnel</small></div><button className="logout-button" onClick={logout}>↪ Se déconnecter</button></div></aside> }
+function Overview({ user, reports, setPage, open, create }) { const own = user.role === 'Étudiant' ? reports.filter((item) => item.author === user.name) : reports; return <div className="page-stack"><section className="welcome-banner"><div><p className="eyebrow">Mardi 16 septembre 2026</p><h2>Votre campus avance avec vous.</h2><p>Retrouvez vos demandes et faites-nous savoir ce qui mérite notre attention.</p></div><button className="primary-button" onClick={create}>+ Nouveau signalement</button></section><section className="metric-grid"><Metric label="Signalements" value={own.length || 12} detail="depuis le début" tone="navy" /><Metric label="En cours" value={own.filter((item) => item.status === 'En cours').length || 5} detail="traités par l’équipe" tone="amber" /><Metric label="Résolus" value={own.filter((item) => item.status === 'Résolu').length || 8} detail="ce mois-ci" tone="green" /><Metric label="Temps moyen" value="2,4 j" detail="de prise en charge" tone="cream" /></section><div className="content-grid"><section className="panel"><div className="panel-heading"><div><p className="section-kicker">À suivre</p><h3>{user.role === 'Étudiant' ? 'Vos dernières demandes' : 'Demandes à traiter'}</h3></div><button className="text-button" onClick={() => setPage('reports')}>Tout voir →</button></div>{own.slice(0, 3).map((item) => <ReportRow key={item.id} report={item} onClick={() => open(item.id)} />)}</section><section className="panel activity-panel"><div className="panel-heading"><div><p className="section-kicker">En direct</p><h3>Activité récente</h3></div><span className="live-dot">● Live</span></div><Activity text="Signalement pris en charge" time="Il y a 24 min" /><Activity text="Nouveau commentaire sur CH-1048" time="Il y a 1 h" /><Activity text="Votre demande CH-1046 est résolue" time="Hier" /></section></div></div> }
+function Metric({ label, value, detail, tone }) { return <div className={`metric metric-${tone}`}><span>{label}</span><strong>{value}</strong><small>{detail}</small></div> }
+function Activity({ text, time }) { return <div className="activity"><span className="activity-mark">↗</span><div><b>{text}</b><small>{time}</small></div></div> }
+function ReportRow({ report, onClick }) { return <button className="report-row" onClick={onClick}><span className="report-symbol">{report.category === 'Wi-Fi' ? '⌁' : '◆'}</span><span className="report-main"><b>{report.title}</b><small>{report.id} · {report.location}</small></span><span className={`status-pill ${statusColors[report.status]}`}>{report.status}</span><span className="row-arrow">→</span></button> }
+
+function Reports({ reports, all, staff, query, setQuery, status, setStatus, category, setCategory, open, create, update }) { return <div className="page-stack"><div className="page-intro"><div><p className="section-kicker">{staff ? 'Pilotage opérationnel' : 'Votre historique'}</p><h2>{staff ? 'Toutes les demandes du campus' : 'Vos signalements'}</h2><p>{reports.length} résultat{reports.length > 1 ? 's' : ''} · mis à jour à l’instant</p></div>{!staff && <button className="primary-button" onClick={create}>+ Nouveau signalement</button>}</div><section className="filter-bar"><div className="search-box"><span>⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Rechercher un signalement..." /></div><select value={status} onChange={(event) => setStatus(event.target.value)}><option>Tous les statuts</option>{Object.keys(statusColors).map((item) => <option key={item}>{item}</option>)}</select><select value={category} onChange={(event) => setCategory(event.target.value)}><option>Toutes les catégories</option>{['Wi-Fi', 'Matériel', 'Locaux', 'Mobilier'].map((item) => <option key={item}>{item}</option>)}</select></section><section className="panel reports-table"><div className="table-head"><span>Signalement</span><span>Catégorie / lieu</span><span>Priorité</span><span>Statut</span><span>Action</span></div>{reports.map((item) => <div className="table-row" key={item.id}><div className="report-main"><b>{item.title}</b><small>{item.id} · {item.date} · {item.author}</small></div><span>{item.category}<small>{item.location}</small></span><select className="priority-select" value={item.priority} onChange={(event) => update(item.id, { priority: event.target.value }, 'Priorité mise à jour')} disabled={!staff}>{priorities.map((priority) => <option key={priority}>{priority}</option>)}</select><span className={`status-pill ${statusColors[item.status]}`}>{item.status}</span><button className="small-action" onClick={() => open(item.id)}>Détails →</button></div>)}{!reports.length && <div className="empty-state">Aucun signalement ne correspond à vos filtres.</div>}</section><p className="table-caption">{all.length} signalements enregistrés · Les priorités urgentes sont signalées en rouge.</p></div> }
+
+function Drawer({ report, close, staff, update }) { const [comment, setComment] = useState(''); function addComment(event) { event.preventDefault(); if (comment.trim()) { update(report.id, { comments: report.comments + 1 }, 'Commentaire ajouté au signalement'); setComment('') } } return <div className="drawer-backdrop" onClick={close}><aside className="drawer" onClick={(event) => event.stopPropagation()}><div className="drawer-head"><span className="section-kicker">{report.id}</span><button className="close-button" onClick={close}>×</button></div><h2>{report.title}</h2><div className="drawer-meta"><span className={`status-pill ${statusColors[report.status]}`}>{report.status}</span><span>● {report.priority}</span><span>{report.date}</span></div><p className="drawer-description">{report.description}</p>{[['Catégorie', report.category], ['Localisation', report.location], ['Signalé par', report.author]].map(([label, value]) => <div className="detail-block" key={label}><span>{label}</span><b>{value}</b></div>)}<div className="detail-block"><span>Intervenant</span>{staff ? <select value={report.assignee} onChange={(event) => update(report.id, { assignee: event.target.value }, 'Intervenant attribué')}><option>Non assigné</option><option>Marc Dubois</option><option>Sarah Petit</option><option>Service informatique</option></select> : <b>{report.assignee}</b>}</div>{staff && <div className="status-actions"><span>Modifier le statut</span><div>{Object.keys(statusColors).map((item) => <button key={item} className={report.status === item ? 'selected' : ''} onClick={() => update(report.id, { status: item }, `Statut changé en « ${item} »`)}>{item}</button>)}</div></div>}<div className="comments"><div className="comments-title"><b>Commentaires</b><span>{report.comments}</span></div><div className="comment"><span className="avatar mini">LM</span><p><b>Léa Martin</b><small>Il y a 2 h</small><span>Merci pour la prise en charge !</span></p></div><form onSubmit={addComment} className="comment-form"><input value={comment} onChange={(event) => setComment(event.target.value)} placeholder="Ajouter un commentaire..." /><button aria-label="Envoyer">→</button></form></div></aside></div> }
+function CreateModal({ close, submit }) { return <div className="modal-backdrop" onClick={close}><div className="modal" onClick={(event) => event.stopPropagation()}><div className="modal-head"><div><p className="section-kicker">Nouvelle demande</p><h2>Signaler un problème</h2></div><button className="close-button" onClick={close}>×</button></div><form onSubmit={submit} className="create-form"><label>Titre<input name="title" required placeholder="Ex. Éclairage défectueux" /></label><label>Description<textarea name="description" required rows="4" placeholder="Décrivez le problème rencontré..." /></label><div className="form-columns"><label>Catégorie<select name="category"><option>Wi-Fi</option><option>Matériel</option><option>Locaux</option><option>Mobilier</option></select></label><label>Lieu<select name="location"><option>Bâtiment A · Amphi 2</option><option>Bâtiment B · Salle 204</option><option>Bâtiment C · Rez-de-chaussée</option><option>Bibliothèque · Salle 1</option></select></label></div><div className="form-columns"><label>Priorité<select name="priority"><option>Normale</option><option>Faible</option><option>Haute</option><option>Urgente</option></select></label><label>Photo<input type="file" accept="image/*" /></label></div><div className="modal-actions"><button type="button" className="secondary-button" onClick={close}>Annuler</button><button className="primary-button" type="submit">Créer le signalement →</button></div></form></div></div> }
+
+function Analytics({ reports }) { return <div className="page-stack"><div className="page-intro"><div><p className="section-kicker">Vue d’ensemble</p><h2>La santé du campus</h2><p>Les tendances des signalements sur les 30 derniers jours.</p></div><button className="secondary-button">↓ Exporter</button></div><section className="metric-grid"><Metric label="Total signalements" value={1044 + reports.length} detail="+12 % vs. mois dernier" tone="navy" /><Metric label="Taux de résolution" value="78 %" detail="objectif : 80 %" tone="green" /><Metric label="Temps moyen" value="2,4 j" detail="-0,6 j vs. mois dernier" tone="amber" /><Metric label="Urgents" value="6" detail="à traiter aujourd’hui" tone="cream" /></section><div className="analytics-grid"><section className="panel chart-panel"><div className="panel-heading"><div><p className="section-kicker">Volume</p><h3>Signalements cette semaine</h3></div><b className="chart-total">42 <small>total</small></b></div><div className="bars">{[['Lun', 48], ['Mar', 68], ['Mer', 52], ['Jeu', 86], ['Ven', 63], ['Sam', 28], ['Dim', 19]].map(([day, height]) => <div className="bar-wrap" key={day}><span style={{ height: `${height}%` }} /><small>{day}</small></div>)}</div></section><section className="panel breakdown"><div className="panel-heading"><div><p className="section-kicker">Répartition</p><h3>Par catégorie</h3></div></div>{[['Wi-Fi', 36], ['Matériel', 28], ['Locaux', 21], ['Mobilier', 15]].map(([label, value]) => <div className="breakdown-row" key={label}><span className="legend" /><b>{label}</b><div className="progress"><span style={{ width: `${value}%` }} /></div><strong>{value}%</strong></div>)}</section></div></div> }
+function History() { return <div className="page-stack"><div className="page-intro"><div><p className="section-kicker">Traçabilité</p><h2>Historique des actions</h2><p>Chaque modification importante est enregistrée.</p></div><button className="secondary-button">↓ Exporter</button></div><section className="panel history-list">{[['Alice Robert', 'a modifié la priorité de CH-1048', 'Aujourd’hui, 10:42', 'AR'], ['Marc Dubois', 'a pris en charge CH-1047', 'Aujourd’hui, 09:18', 'MD'], ['Sarah Petit', 'a passé CH-1046 au statut Résolu', 'Hier, 16:37', 'SP'], ['Alice Robert', 'a désactivé la catégorie « Mobilier »', 'Hier, 14:05', 'AR']].map(([name, action, date, initials]) => <div className="history-row" key={name + action}><span className="avatar">{initials}</span><p><b>{name}</b> {action}<small>{date}</small></p><span>↗</span></div>)}</section></div> }
+function Users({ notify }) { return <div className="page-stack"><div className="page-intro"><div><p className="section-kicker">Accès & permissions</p><h2>Utilisateurs</h2><p>Gérez les comptes et les rôles de votre établissement.</p></div><button className="primary-button" onClick={() => notify('Le formulaire de création sera bientôt disponible')}>+ Ajouter un utilisateur</button></div><section className="panel users-table">{[['Léa Martin', 'lea.martin@campus.fr', 'Étudiant', 'Actif'], ['Marc Dubois', 'marc.dubois@campus.fr', 'Personnel', 'Actif'], ['Sarah Petit', 'sarah.petit@campus.fr', 'Personnel', 'Actif'], ['Hugo Leroy', 'hugo.leroy@campus.fr', 'Étudiant', 'Bloqué']].map(([name, email, role, state]) => <div className="table-row" key={email}><div className="user-cell"><span className="avatar mini">{name.split(' ').map((part) => part[0]).join('')}</span><span><b>{name}</b><small>{email}</small></span></div><span>{role}</span><span className={state === 'Actif' ? 'state-active' : 'state-blocked'}>{state}</span><button className="small-action" onClick={() => notify('Statut utilisateur mis à jour')}>{state === 'Actif' ? 'Bloquer' : 'Réactiver'}</button></div>)}</section></div> }
+function Settings({ setPage, notify }) { return <div className="page-stack"><div className="page-intro"><div><p className="section-kicker">Référentiels</p><h2>Configuration</h2><p>Les catégories, lieux et priorités utilisés dans les signalements.</p></div></div><div className="settings-grid">{[['Catégories', '4 catégories actives', 'Wi-Fi · Matériel · Locaux · Mobilier'], ['Lieux', '12 lieux enregistrés', 'Bâtiments et salles du campus'], ['Priorités', '4 niveaux', 'Faible · Normale · Haute · Urgente']].map(([title, count, detail]) => <section className="panel setting-card" key={title}><span className="setting-icon">◆</span><h3>{title}</h3><b>{count}</b><p>{detail}</p><button className="text-button" onClick={() => notify(`Gestion des ${title.toLowerCase()} ouverte`)}>Gérer →</button></section>)}</div><section className="panel quick-links"><h3>Raccourcis administrateur</h3><button onClick={() => setPage('users')}>Gérer les utilisateurs <span>→</span></button><button onClick={() => notify('Catégorie ajoutée')}>Ajouter une catégorie <span>→</span></button><button onClick={() => notify('Lieu ajouté')}>Ajouter un lieu <span>→</span></button></section></div> }
+
 export default App
+

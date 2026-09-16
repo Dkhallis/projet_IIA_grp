@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Serve the production build while keeping the project URL unchanged.
+RewriteRule ^$ dist/index.html [L]
+RewriteRule ^assets/(.*)$ dist/assets/$1 [L]
+RewriteRule ^(favicon\.svg|icons\.svg)$ dist/$1 [L]
