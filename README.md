@@ -45,8 +45,8 @@ Les étudiants signalent un problème (matériel, Wi-Fi, salle…), le personnel
 |--------|--------|--------|---------|
 | Hadrien Cup | `@BLN53z00` | Connexion / utilisateurs / interface / déploiement | `Connexion-et-Utilisateurs`, `Produit-final` |
 | Oscar Beaugas | `@Dkhallis` | Recherche / administration / base Supabase | `personne4-recherche-admin-bdd` |
-| Kylian Dupuis | — | Signalements (création, recherche, statut, commentaires) | `CampusHelp` |
-| Inâs Tifaoui | — | Messagerie / notifications · Documentation du projet | `messagerie-et-notifications` |
+| Kylian Dupuis | `@kylian2210`| Signalements (création, recherche, statut, commentaires) | `CampusHelp` |
+| Inâs Tifaoui | `@inastif` | Messagerie / notifications · Documentation du projet | `messagerie-et-notifications` |
 
 Documentation rédigée et mise en forme par **Inâs Tifaoui**. Toutes les branches ont été mergées sur `main`.
 
