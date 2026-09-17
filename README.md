@@ -48,7 +48,7 @@ Les étudiants signalent un problème (matériel, Wi-Fi, salle…), le personnel
 | Kylian Dupuis | `@kylian2210`| Signalements (création, recherche, statut, commentaires) | `CampusHelp` |
 | Inâs Tifaoui | `@inastif` | Messagerie / notifications · Documentation du projet | `messagerie-et-notifications` |
 
-Documentation rédigée et mise en forme par **Inâs Tifaoui**. Toutes les branches ont été mergées sur `main`.
+Toutes les branches ont été mergées sur `main`.
 
 ---
 
