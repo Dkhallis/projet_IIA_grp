@@ -69,6 +69,8 @@ Suite utilisée : `1, 1, 2, 3, 5, 8, 13, 21`.
 
 **Total : 80 points.**
 
+> **Statut au rendu (`main`, app Supabase)** — livrées : US01–US03, US05, US06, US08, US09, US11–US17, US20. Développées sur la variante `localStorage` non retenue au merge final : messagerie, « Tous les signalements », US18 (statistiques), US19 (historique). Priorités livrées : `Faible` / `Normale` / `Haute` / `Urgente`.
+
 ### Product Backlog (User Stories — GitHub Issues)
 
 ![Product Backlog — User Stories](../captures/product-backlog.png)
