@@ -1,3 +1,4 @@
+ .auth-switch { display: block; margin: 18px auto 0; padding: 0; border: 0; color: var(--teal); background: transparent; font-size: 12px; font-weight: 800; }
 :root { --ink: #17323e; --muted: #71828a; --line: #e1e9e5; --paper: #f4f7f4; --teal: #0e5961; --mint: #dff0e8; --yellow: #f4ca62; --red: #bd5f53; }
 * { box-sizing: border-box; }
 button, input, select, textarea { font: inherit; }
