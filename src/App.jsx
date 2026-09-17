@@ -128,6 +128,7 @@ function Messagerie({ user, conversations, send }) {
         </div>
         <form onSubmit={submit} className="comment-form chat-input"><input value={text} onChange={(event) => setText(event.target.value)} placeholder="Écrire un message..." /><button aria-label="Envoyer">→</button></form>
       </>}
+      <div className="dino-track" aria-hidden="true"><div className="dino"><span>🦖</span></div></div>
     </section>
   </div>
 }
