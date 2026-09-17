@@ -7,6 +7,10 @@ const seedReports = [
   { id: 'CH-1046', title: 'Fuite près de la cafétéria', description: 'Une fuite rend le passage glissant depuis ce matin.', category: 'Locaux', location: 'Bâtiment C · Rez-de-chaussée', status: 'Résolu', priority: 'Urgente', date: '10 sept. 2026', author: 'Thomas Bernard', assignee: 'Sarah Petit', comments: 0, commentList: [] },
   { id: 'CH-1045', title: 'Chaise cassée', description: 'Une chaise est inutilisable dans la salle de travail.', category: 'Mobilier', location: 'Bibliothèque · Salle 1', status: 'Refusé', priority: 'Faible', date: '09 sept. 2026', author: 'Léa Martin', assignee: 'Non assigné', comments: 0, commentList: [] },
 ]
+const DINO_GRID = [...Array(12)].map((_, index) => ({ x: (index % 4) * 25 + 8, y: Math.floor(index / 4) * 30 + 12 }))
+const DINO_DECOYS = ['🦕', '🐊', '🦎', '🐸', '🐍']
+function shuffle(list) { const copy = [...list]; for (let i = copy.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1));[copy[i], copy[j]] = [copy[j], copy[i]] } return copy }
+function generateDinoRound() { const positions = shuffle(DINO_GRID); return { targetPos: positions[0], decoys: positions.slice(1).map((pos) => ({ ...pos, emoji: DINO_DECOYS[Math.floor(Math.random() * DINO_DECOYS.length)] })) } }
 const statusColors = { Nouveau: 'blue', 'En cours': 'amber', Résolu: 'green', Refusé: 'red' }
 const priorities = ['Faible', 'Normale', 'Haute', 'Urgente']
 const STUDENT_ACCOUNTS_KEY = 'campushelp_student_accounts'
@@ -174,8 +178,22 @@ function Messagerie({ user, conversations, send }) {
         </div>
         <form onSubmit={submit} className="comment-form chat-input"><input value={text} onChange={(event) => setText(event.target.value)} placeholder="Écrire un message..." /><button aria-label="Envoyer">→</button></form>
       </>}
-      <div className="dino-track" aria-hidden="true"><div className="dino"><span>🦖</span></div></div>
+      <DinoHunt />
     </section>
+  </div>
+}
+
+function DinoHunt() {
+  const [round, setRound] = useState(generateDinoRound)
+  const [found, setFound] = useState(0)
+  const [message, setMessage] = useState('')
+  function handleFound() { setFound((value) => value + 1); setMessage('Trouvé ! 🎉'); window.setTimeout(() => setMessage(''), 1500); setRound(generateDinoRound()) }
+  return <div className="dino-hunt">
+    <div className="dino-hunt-head"><b>Où est le dino ?</b><span>{message || `${found} trouvé${found > 1 ? 's' : ''}`}</span></div>
+    <div className="dino-hunt-field">
+      {round.decoys.map((decoy, index) => <span key={index} className="dino-decoy" style={{ left: `${decoy.x}%`, top: `${decoy.y}%` }} aria-hidden="true">{decoy.emoji}</span>)}
+      <button type="button" className="dino-target" style={{ left: `${round.targetPos.x}%`, top: `${round.targetPos.y}%` }} onClick={handleFound} aria-label="Trouver le dinosaure">🦖</button>
+    </div>
   </div>
 }
 
