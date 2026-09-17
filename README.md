@@ -54,8 +54,8 @@ Toutes les branches ont été mergées sur `main`.
 
 ## Stack technique
 
-- **Front-end :** React + Vite (JavaScript), CSS — persistance en `localStorage`.
-- **Base de données :** Supabase / PostgreSQL — schéma `profiles`, `categories`, `lieux`, `demandes`, `reports` (`supabase/migrations/0001_init_schema.sql`), module admin/recherche en TypeScript.
+- **Front-end :** React + Vite (JavaScript), CSS.
+- **Base de données / auth :** Supabase / PostgreSQL — l'app React (`src/App.jsx`) est branchée sur Supabase : auth (connexion + inscription), profils/rôles, tables `demandes`, `commentaires`, `notifications`, `profiles`. ⚠️ Le module client `src/lib/supabase.js`, la dépendance `@supabase/supabase-js`, les migrations SQL et le `.env` restent à committer pour lancer l'app après un `git clone` (voir [Sprint 4](docs/sprint-4.md#tâches-non-terminées)).
 - **Qualité :** Oxlint.
 - **Déploiement :** Vercel (public) + WAMP (local, `.htaccess`).
 
