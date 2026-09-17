@@ -7,7 +7,7 @@ const seedReports = [
   { id: 'CH-1046', title: 'Fuite près de la cafétéria', description: 'Une fuite rend le passage glissant depuis ce matin.', category: 'Locaux', location: 'Bâtiment C · Rez-de-chaussée', status: 'Résolu', priority: 'Urgente', date: '10 sept. 2026', author: 'Thomas Bernard', assignee: 'Sarah Petit', comments: 0, commentList: [] },
   { id: 'CH-1045', title: 'Chaise cassée', description: 'Une chaise est inutilisable dans la salle de travail.', category: 'Mobilier', location: 'Bibliothèque · Salle 1', status: 'Refusé', priority: 'Faible', date: '09 sept. 2026', author: 'Léa Martin', assignee: 'Non assigné', comments: 0, commentList: [] },
 ]
-function randomDinoSpot() { return { top: 12 + Math.random() * 74, left: 24 + Math.random() * 68 } }
+function randomDinoSpot() { return { top: 6 + Math.random() * 88, left: 19 + Math.random() * 77 } }
 const statusColors = { Nouveau: 'blue', 'En cours': 'amber', Résolu: 'green', Refusé: 'red' }
 const priorities = ['Faible', 'Normale', 'Haute', 'Urgente']
 const STUDENT_ACCOUNTS_KEY = 'campushelp_student_accounts'
