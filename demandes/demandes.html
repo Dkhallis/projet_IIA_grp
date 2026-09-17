@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusHelp — Cahier des besoins</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+  }
+  header h1 { margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+  header p { margin: 0; opacity: 0.9; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+  h2 {
+    font-size: 1.15rem;
+    color: var(--primary);
+    margin-top: 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+  }
+  ul { padding-left: 1.25rem; }
+  li { margin-bottom: 0.4rem; }
+  .tag {
+    display: inline-block;
+    background: #eff6ff;
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    margin-right: 0.4rem;
+  }
+  table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+  th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  th { color: var(--muted); font-weight: 600; }
+  footer { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 2rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>CampusHelp — Cahier des besoins</h1>
+    <p>Application de signalement et de suivi des problèmes en établissement scolaire</p>
+  </header>
+
+  <section>
+    <h2>1. Contexte et objectif</h2>
+    <p>
+      CampusHelp est une application destinée aux établissements scolaires afin de faciliter
+      le signalement et le suivi des problèmes rencontrés au quotidien (matériel défectueux,
+      Wi-Fi, salle en mauvais état, etc.). L'objectif est de centraliser les signalements,
+      faciliter leur traitement et améliorer la communication entre les étudiants et le personnel.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Utilisateurs cibles</h2>
+    <ul>
+      <li><strong>Étudiant :</strong> signale un problème et suit son avancement.</li>
+      <li><strong>Personnel :</strong> consulte les signalements, les prend en charge, met à jour leur statut.</li>
+      <li><strong>Administrateur :</strong> gère les utilisateurs, catégories, lieux, et consulte les statistiques.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Besoins fonctionnels</h2>
+    <table>
+      <tr><th>Fonctionnalité</th><th>Description</th><th>Priorité</th></tr>
+      <tr><td>Signaler un problème</td><td>Formulaire avec description, catégorie, lieu et photo optionnelle</td><td><span class="tag">Must</span></td></tr>
+      <tr><td>Consulter les signalements</td><td>Liste des signalements avec leur statut</td><td><span class="tag">Must</span></td></tr>
+      <tr><td>Prendre en charge un signalement</td><td>Le personnel s'assigne un signalement et modifie son statut</td><td><span class="tag">Should</span></td></tr>
+      <tr><td>Suivi de l'avancement</td><td>L'auteur du signalement voit l'évolution du statut</td><td><span class="tag">Should</span></td></tr>
+      <tr><td>Espace administrateur</td><td>Gestion des utilisateurs, catégories, lieux</td><td><span class="tag">Could</span></td></tr>
+      <tr><td>Statistiques</td><td>Vue d'ensemble des problèmes rencontrés dans l'établissement</td><td><span class="tag">Could</span></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>4. Données d'un signalement</h2>
+    <ul>
+      <li>Description (texte)</li>
+      <li>Catégorie (ex : informatique, réseau, mobilier, bâtiment...)</li>
+      <li>Lieu (ex : salle, bâtiment, étage)</li>
+      <li>Photo (optionnelle)</li>
+      <li>Statut (à traiter / en cours / résolu)</li>
+      <li>Date de création</li>
+      <li>Auteur</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Contraintes techniques</h2>
+    <ul>
+      <li>Front-end réalisé en <strong>React</strong>.</li>
+      <li>Interface simple et accessible pour tous les profils d'utilisateurs.</li>
+      <li>Premier sprint : version front-end sans backend (données en mémoire).</li>
+    </ul>
+  </section>
+
+  <footer>
+    CampusHelp — Cahier des besoins — Sprint 1
+  </footer>
+
+</div>
+</body>
+</html>
