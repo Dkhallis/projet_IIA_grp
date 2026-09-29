@@ -28,9 +28,11 @@ export default function SignalementForm({ onSubmit }) {
   function handlePhotoChange(e) {
     const file = e.target.files?.[0];
     if (!file) {
+      if (form.photoPreview) URL.revokeObjectURL(form.photoPreview);
       setForm((prev) => ({ ...prev, photo: null, photoPreview: null }));
       return;
     }
+    if (form.photoPreview) URL.revokeObjectURL(form.photoPreview);
     const previewUrl = URL.createObjectURL(file);
     setForm((prev) => ({ ...prev, photo: file, photoPreview: previewUrl }));
   }
