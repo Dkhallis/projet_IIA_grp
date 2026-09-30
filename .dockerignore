@@ -1,0 +1,29 @@
+# Dépendances locales (très lourd, Docker va faire son propre npm install)
+**/node_modules
+**/.pnpm-store
+
+# Dossiers de build locaux
+**/dist
+**/build
+
+# Logs d'erreurs
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environnement et secrets (Pour ne pas embarquer vos clés privées)
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Fichiers système et éditeurs
+**/.git
+**/.gitignore
+**/.vscode
+**/.idea
+**/*.suo
+**/*.ntvs*
+**/*.njsproj
+**/DS_Store
