@@ -1,25 +1,34 @@
-# === ÉTAPE 1 : Build de l'application React ===
-FROM node:20-alpine AS builder
+# Étape 1 : construire l'application React
+FROM node:20-alpine AS build
+
 WORKDIR /app
 
-# 1. On copie les fichiers de configuration
+# Copier les fichiers de dépendances
 COPY package*.json ./
+
+# Installer les dépendances
 RUN npm install
 
-# 2. On copie tout le contenu du projet
+# Copier le projet
 COPY . .
 
-# 3. Correction de la structure HTML pour l'index
-RUN sed -i 's|\./app/src/main.jsx|\./src/main.jsx|g' index.html
-
-# 4. Création du fichier supabase.js factice pour bypass le plantage de Vite
-RUN mkdir -p src/lib && echo "export const supabase = {};" > src/lib/supabase.js
-
-# 5. On lance la compilation
+# Construire l'application
 RUN npm run build
 
-# === ÉTAPE 2 : Serveur de production (Nginx) ===
+
+# Étape 2 : servir l'application avec Nginx
 FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copier la configuration Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copier les fichiers générés par Vite
+COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Port utilisé par Nginx
 EXPOSE 80
+
+# Démarrer Nginx
 CMD ["nginx", "-g", "daemon off;"]
