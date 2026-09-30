@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
-import { supabase } from './lib/supabase'
+
 
 const statusColors = { nouveau: 'blue', en_cours: 'amber', resolu: 'green', refuse: 'red' }
 const statusLabels = { nouveau: 'Nouveau', en_cours: 'En cours', resolu: 'Résolu', refuse: 'Refusé' }
