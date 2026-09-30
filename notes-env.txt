@@ -1,0 +1,12 @@
+# 1. Créer le .env.example (à commiter)
+cp .env .env.example
+# Vider les valeurs sensibles dans .env.example
+# DATABASE_URL=postgresql://user:PASSWORD@db:5432/myapp
+
+# 2. Vérifier que .env est dans .gitignore
+grep ".env" .gitignore   # doit retourner au moins une ligne
+
+# 3. Commiter .env.example
+git add .env.example compose.yml Dockerfile .dockerignore
+git commit -m "feat(docker): add Dockerfile and compose setup"
+git push origin feature/docker
